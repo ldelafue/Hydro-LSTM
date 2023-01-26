@@ -22,13 +22,15 @@ import random
 import pickle
 
 #%% Functions
+ADD PATH TO ANOTHER FOLDER
+
 from Hydro_LSTM import *
 from LSTM import *
 from utils import *
 #%% reading parameter
 parser = argparse.ArgumentParser()
-parser.add_argument('--country', choices=["US", "CL"])
-parser.add_argument('--code', type=int)
+#parser.add_argument('--country', choices=["US", "CL"]) # Only US catchments is implemented here 
+parser.add_argument('--code', type=int) #ID 1000000 runs a unique model over the 10 catchment, do not implemented here
 parser.add_argument('--cells', type=int) 
 parser.add_argument('--memory', type=int) 
 parser.add_argument('--patience', type=int, default=512) 
@@ -36,11 +38,12 @@ parser.add_argument('--learning_rate', default=1e-4)
 parser.add_argument('--epochs', type=int, default=512)
 parser.add_argument('--processor', default="cpu")
 parser.add_argument('--model', choices=["LSTM", "HYDRO"])
-parser.add_argument('--normalization', choices=["Global", "Local"])
-parser.add_argument('--attribute', type=int, default=0) 
+#parser.add_argument('--normalization', choices=["Global", "Local"]) # Only valid for a unique model, do not implemented here 
+#parser.add_argument('--attribute', type=int, default=0)  # only usesful for with a unique model 
 cfg = vars(parser.parse_args()) 
 
-country = cfg["country"]
+
+#country = cfg["country"]
 code = cfg["code"]
 cells = cfg["cells"]
 memory = cfg["memory"]
@@ -49,53 +52,39 @@ learning_rate = cfg["learning_rate"]
 epochs = cfg["epochs"]
 processor = cfg["processor"]
 model_option = cfg["model"]
-normalization = cfg["normalization"]
-n_attibutes = cfg["attribute"]
+#normalization = cfg["normalization"]
+#n_attibutes = cfg["attribute"]
 
-#country='US'
-#cells=2
-#memory=16
-#learning_rate = 1e-4
-#epochs=50
-#patience=50
+country='US'
 n_variables = 2 #ex. PP and PET = 2 variables
-#n_attibutes = 2 #1:Aridity #2: Aridity + mean elevation ----It only works with Global normalization
+n_attibutes = 0 #1:Aridity ----It only works with Global normalization
 dropout = 0
-#processor = "cpu"
 #model_option = "HYDRO" #"LSTM
-#normalization = "Global" #"Local" or "Global" ONLY FOR CODE=1000000
+normalization = "local" #"Local" or "Global" ONLY FOR CODE=1000000
 
 
 #Recent rainfall-dominant (West)
-#code = 11523200 #TRINITY R AB COFFEE C NR TRINITY CTR CA  01/1980 ok
-#code = 11473900 # MF EEL R NR DOS RIOS CA 01/1980 ok  NEW
+#code = 11523200 #TRINITY R AB COFFEE C NR TRINITY CTR CA  01/1980
+#code = 11473900 # MF EEL R NR DOS RIOS CA 01/1980
  
 #Snowmelt-dominant
-#code = 9223000 #HAMS FORK BELOW POLE CREEK, NEAR FRONTIER, WY  01/1980 ok  NEW
-#code = 9035900 #SOUTH FORK OF WILLIAMS FORK NEAR LEAL, CO. 01/1980 ok
+#code = 9223000 #HAMS FORK BELOW POLE CREEK, NEAR FRONTIER, WY  01/1980
+#code = 9035900 #SOUTH FORK OF WILLIAMS FORK NEAR LEAL, CO. 01/1980
 
 #Mixed
-#code = 6847900 #PRAIRIE DOG C AB KEITH SEBELIUS LAKE, KS 01/1980 ok
-#code = 6353000 #CEDAR CREEK NR RALEIGH, ND 01/1980 ok
+#code = 6847900 #PRAIRIE DOG C AB KEITH SEBELIUS LAKE, KS 01/1980
+#code = 6353000 #CEDAR CREEK NR RALEIGH, ND 01/1980
 
 #Historical rainfall-dominant
-#code = 2472000 #LEAF RIVER NR COLLINS, MS 01/1980 ok
-#code = 5362000 #JUMP RIVER AT SHELDON, WI nEW 01/1980 ok
+#code = 2472000 #LEAF RIVER NR COLLINS, MS 01/1980
+#code = 5362000 #JUMP RIVER AT SHELDON, WI 01/1980
 
 #Recent rainfall-dominant (East)
-#code = 3173000 #WALKER CREEK AT BANE, VA 01/1980 ok
-#code = 1539000 #Fishing Creek near Bloomsburg, PA 01/1980 ok
+#code = 3173000 #WALKER CREEK AT BANE, VA 01/1980
+#code = 1539000 #Fishing Creek near Bloomsburg, PA 01/1980
 
 #All
 #code = 1000000
-
-
-
-
-#batch_first= True #bool ???
-
-#global current_batch
-#current_batch = 2 # iterator for the batches (only to track the model)
 
 
 #%%  
@@ -113,8 +102,8 @@ else:
 lag_values = [1]
 lag_values = [memory*s for s in lag_values] #[2,4,8,16,32,64,128,256]
 batch_size_values = [8]
-state_size_values = [1]#,1]#,1,1,1]#,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] #,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16] #1,2,3,4,8,16
-state_size_values = [cells*s for s in state_size_values]
+state_size_values = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]  
+state_size_values = [cells*s for s in state_size_values] #1,2,3,4,8,16
 model_summary = []
 i=0
 for lag in lag_values:
@@ -151,16 +140,7 @@ for lag in lag_values:
                                 5362000:0.88262,
                                 3173000:0.87104,
                                 1539000:0.68940}
-                #code_aridity =    {11523200:1614.41, #it is elevation
-#                                11473900:1037.85,
-#                                9223000:2448.68,
-#                                9035900:3240.75,
-#                                6847900:885.8,
-#                                6353000:767.71,
-#                                2472000:123.24,
-#                                5362000:434.01,
-#                                3173000:750.95,
-#                                1539000:333.75}
+
                 random.shuffle(code_list)
                 z=1
                 for code_i in code_list:
@@ -435,10 +415,9 @@ for lag in lag_values:
             
             optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
-            loss_func = nn.SmoothL1Loss()
-            #loss_func = nn.L1Loss()
+            loss_func = nn.SmoothL1Loss() #nn.L1Loss()
             
-            learning_rates = {200: learning_rate, 250: learning_rate} 
+            learning_rates = {200: learning_rate, 250: learning_rate} # in case we want to change the learning rate for different epoch
             
             valid_losses = [] # to track the validation loss as the model trains
             model_list = []
@@ -493,9 +472,6 @@ for lag in lag_values:
                     q_sim = q_sim*(y_max - y_min) + y_mean
                     q_obs = q_obs*(y_max - y_min) + y_mean
                 else:
-                    #print(code_list)
-                    #print(y_max - y_min )
-                    #print(y_mean)
                     for ii in range(len(code_list)):
                         q_sim[ii*l_test:(ii+1)*l_test] = q_sim[ii*l_test:(ii+1)*l_test]*(y_max[ii] - y_min[ii]) + y_mean[ii]
                         q_obs[ii*l_test:(ii+1)*l_test] = q_obs[ii*l_test:(ii+1)*l_test]*(y_max[ii] - y_min[ii]) + y_mean[ii]
