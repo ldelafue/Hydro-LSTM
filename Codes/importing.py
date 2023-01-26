@@ -44,9 +44,12 @@ def importing(catchment:str, country:str):
 
     #Definition of the path
     if country == "CL":
-        path = './Data/CL/'
+        #path = './data/CL/'
+        print('Hydro-LSTM has not been tested in chilean catchments')
+        break()
+        
     elif country == "US":
-        path = '/groups/hoshin/ldelafue/PhD/CAMELS/data/'
+        path = './data/'
     path = Path(path)
 
     # Loading data
