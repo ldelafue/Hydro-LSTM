@@ -7,7 +7,7 @@ import pandas as pd
 from pathlib import Path, PosixPath
 import os
 import datetime
-
+from sys import exit
 
 
 
@@ -46,7 +46,7 @@ def importing(catchment:str, country:str):
     if country == "CL":
         #path = './data/CL/'
         print('Hydro-LSTM has not been tested in chilean catchments')
-        break()
+        exit(0)
         
     elif country == "US":
         path = './data/'
