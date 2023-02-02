@@ -25,10 +25,10 @@ This forlder has the 5 python code used in the training of the models.
   - importing.py: This script create the dataset with the data from the thre sources.
   - utils.py: This script has some specific functions used to create the datset and train the model.
   
-  ### Results
-This folder has the summary results for each structure used. Hydro and LSTM refers to the experiment with 10 catchments. Hydro_CONUS refers to the experiment with 587 catchment using Hydro_LSTM. The folder has the actual model saved in a pkl file in the cases where the weight distribution is done.
+### Results
+This folder has the summary results for each structure used. Hydro and LSTM refers to the experiment with 10 catchments. Hydro_CONUS refers to the experiment with 587 catchment using Hydro_LSTM. In the cases where the weight distribution is analyzed, The folder has the actual model saved in a pkl file .
   
-  ### Notebooks
+### Notebooks
 This folder has the files used to create each of the figures presented in the paper. All the figures are contained in the jupiter notebook Figures.ipynb.
 
 
