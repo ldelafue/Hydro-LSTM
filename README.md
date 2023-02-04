@@ -32,4 +32,8 @@ This folder has the summary results for each structure used. Hydro and LSTM refe
 This folder has the files used to create each of the figures presented in the paper. All the figures are contained in the jupiter notebook Figures.ipynb.
 
 
-  
+## Libraries
+The models were trained using the following libraries:
+  - Python 3.8.2
+  - pytorch/nvidia/20.01
+  - Cuda 11.0
