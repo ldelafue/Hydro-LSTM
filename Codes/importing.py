@@ -49,7 +49,9 @@ def importing(catchment:str, country:str):
         exit(0)
         
     elif country == "US":
-        path = './data/'
+        current_path = os.getcwd()
+        path = os.path.abspath(os.path.join(current_path, os.pardir)) + '/data/'
+        #path = './data/'
     path = Path(path)
 
     # Loading data

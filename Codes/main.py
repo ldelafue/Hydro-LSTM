@@ -8,7 +8,7 @@ Final version based in Hydro_LSTM_4.py
 """
 #%% Libraries
 import argparse
-from typing import Tuple
+#from typing import Tuple
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, SequentialSampler
@@ -20,22 +20,23 @@ from datetime import timedelta
 from datetime import date
 import random
 import pickle
+import pandas as pd
+import numpy as np
 
 #%% Functions
-ADD PATH TO ANOTHER FOLDER
-
 from Hydro_LSTM import *
 from LSTM import *
 from utils import *
+
 #%% reading parameter
 parser = argparse.ArgumentParser()
 #parser.add_argument('--country', choices=["US", "CL"]) # Only US catchments is implemented here 
 parser.add_argument('--code', type=int) #ID 1000000 runs a unique model over the 10 catchment, do not implemented here
 parser.add_argument('--cells', type=int) 
-parser.add_argument('--memory', type=int) 
+parser.add_argument('--memory', type=int)
+parser.add_argument('--epochs', type=int, default=512) 
 parser.add_argument('--patience', type=int, default=512) 
 parser.add_argument('--learning_rate', default=1e-4)
-parser.add_argument('--epochs', type=int, default=512)
 parser.add_argument('--processor', default="cpu")
 parser.add_argument('--model', choices=["LSTM", "HYDRO"])
 #parser.add_argument('--normalization', choices=["Global", "Local"]) # Only valid for a unique model, do not implemented here 
@@ -354,7 +355,10 @@ for lag in lag_values:
                     
             else:
                 PP, PET, Q = load_data(code, country, warm_up)
-                                      
+                #print('PP:',PP.shape)
+                #print('PET:',PET.shape)
+                #print('Q:',Q.shape)
+
                 ini_training = PP.index[0] + timedelta(days=275)        
                 initial = ini_training - timedelta(days=lag)
                 
@@ -452,11 +456,13 @@ for lag in lag_values:
                 if iteration == 1:
                     q_sim = pred_epoch
                     q_obs = y_epoch
-                    state_value = c_epoch
+                    if state_size == 1:
+                        state_value = c_epoch[1:]
                 else:
                     q_sim = np.concatenate((q_sim, pred_epoch))
                     q_obs = np.concatenate((q_obs, y_epoch))
-                    state_value = np.concatenate((state_value, c_epoch))
+                    if state_size == 1:
+                        state_value = np.concatenate((state_value, c_epoch[1:]))
                 iteration = iteration + 1
 
                 
@@ -523,7 +529,8 @@ for lag in lag_values:
                 q_sim = q_sim.flatten()
                 q_obs = q_obs.flatten()
                 state_value = state_value.flatten()
-                           
+
+
                 RMSE = mean_squared_error(q_sim[end_valid+2:], q_obs[end_valid+2:])**0.5
                 MAE = mean_absolute_error(q_sim[end_valid+2:], q_obs[end_valid+2:])
                 R2 = r2_score(q_sim[end_valid+2:], q_obs[end_valid+2:])
@@ -536,7 +543,16 @@ for lag in lag_values:
                 std_o = q_obs[end_valid+2:].std()  
                 KGE = 1 - ((CC - 1) ** 2 + (std_s / std_o - 1) ** 2 + (mean_s / mean_o - 1) ** 2) ** 0.5
                 
-                results.at[i,:] = [lag-1, batch_size, state_size, RMSE, MAE, R2, CC, BIAS, KGE]
+                results.at[i,'lag'] = lag-1
+                results.at[i,'batch'] = batch_size
+                results.at[i,'cell'] = state_size
+                results.at[i,'RMSE'] = RMSE
+                results.at[i,'MAE'] = MAE
+                results.at[i,'R2'] = R2
+                results.at[i,'CC'] = CC
+                results.at[i,'Bias'] = BIAS
+                results.at[i,'KGE'] = KGE
+
                 print(results)
                 predictions[0,i+1] = lag-1
                 predictions[1,i+1] = state_size
@@ -562,7 +578,8 @@ if model_option == "HYDRO":
         name_file = str(code) + '_C' + str(state_size) + '_L' + str(lag-1) + '_hydro_predictions.csv'
         predictions = pd.DataFrame(predictions)
         predictions.to_csv(name_file)
-        name_file = str(code) + '_C' + str(state_size) + '_L' + str(lag-1) + '_hydro_state.csv'
+        if state_size == 1:
+            name_file = str(code) + '_C' + str(state_size) + '_L' + str(lag-1) + '_hydro_state.csv'
         state_results = pd.DataFrame(state_results)
         state_results.to_csv(name_file)        
 
