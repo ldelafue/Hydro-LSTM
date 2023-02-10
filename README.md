@@ -19,12 +19,14 @@ By using the CAMELS time series in your publication(s), you agree to cite:
 > *Newman, A. J., Clark, M. P., Sampson, K., Wood, A., Hay, L. E., Bock, A., Viger, R., Blodgett, D., Brekke, L., Arnold, J. R., Hopson, T. and Duan, Q.: Development of a large-sample watershed-scale hydrometeorological dataset for the contiguous USA: dataset characteristics and assessment of regional variability in hydrologic model performance, Hydrology and Earth System Sciences, 19, 209–223, doi:10.5194/hess-19-209-2015, 2015.*
 
 ### Codes
-This forlder has the 5 python code used in the training of the models.
+This forlder has the 5 python code used in the training and evaluation (testing) of the results of the models.
   - main.py: This code is calling all the other files. This script has some parameterization such as gauge ID, #cells, #memory (days), learning rate, #epochs, and the model used (LSTM or HYDRO)
   - LSTM.py and Hydro_LSTM.py: They create a class with the specific structure. Its equation can be found in this script.
   - importing.py: This script create the dataset with the data from the thre sources.
   - utils.py: This script has some specific functions used to create the datset and train the model.
-  
+
+Moreover, the folder has the Anaconda environment used to run the codes, and a txt file with an example about how to run the main.py script using comand lines in a terminal.
+
 ### Results
 This folder has the summary results for each structure used. Hydro and LSTM refers to the experiment with 10 catchments. Hydro_CONUS refers to the experiment with 587 catchment using Hydro_LSTM. In the cases where the weight distribution is analyzed, The folder has the actual model saved in a pkl file .
   
@@ -32,8 +34,3 @@ This folder has the summary results for each structure used. Hydro and LSTM refe
 This folder has the files used to create each of the figures presented in the paper. All the figures are contained in the jupiter notebook Figures.ipynb.
 
 
-## Libraries
-The models were trained using the following libraries:
-  - Python 3.8.2
-  - pytorch/nvidia/20.01
-  - Cuda 11.0
