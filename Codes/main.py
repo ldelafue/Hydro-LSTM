@@ -35,7 +35,7 @@ parser.add_argument('--code', type=int) #ID 1000000 runs a unique model over the
 parser.add_argument('--cells', type=int) 
 parser.add_argument('--memory', type=int)
 parser.add_argument('--epochs', type=int, default=512) 
-parser.add_argument('--patience', type=int, default=512) 
+#parser.add_argument('--patience', type=int, default=512) 
 parser.add_argument('--learning_rate', default=1e-4)
 parser.add_argument('--processor', default="cpu")
 parser.add_argument('--model', choices=["LSTM", "HYDRO"])
@@ -48,9 +48,9 @@ cfg = vars(parser.parse_args())
 code = cfg["code"]
 cells = cfg["cells"]
 memory = cfg["memory"]
-patience= cfg["patience"]
 learning_rate = cfg["learning_rate"]
 epochs = cfg["epochs"]
+patience= epochs
 processor = cfg["processor"]
 model_option = cfg["model"]
 #normalization = cfg["normalization"]
