@@ -1,5 +1,5 @@
 # Hydro-LSTM
-Towards Interpretable LSTM Modeling of Hydrological Systems 
+Towards Interpretable LSTM Modeling of Hydrological Systems
 
 This repository is splited in 4 different sections.
   - Data
@@ -7,8 +7,29 @@ This repository is splited in 4 different sections.
   - Results
   - Notebooks
 
+### Getting started
+
+To run the code you can use the provided conda environment. To clone the repo and create the environment use (the last step may take some time):
+```
+git clone git@github.com:ldelafue/Hydro-LSTM.git
+cd Hydro-LSTM
+conda env create -f environment.yml
+```
+
+Once you have the environment set up you can activate it and start running the code. For example, you can try:
+```
+conda activate Hydro-LSTM
+cd Codes
+python main.py --code 9223000 --cells 1 --memory 256 --epochs 10 --model HYDRO
+```
+
+To see the available options, you can use:
+```
+python main.py --help
+```
+
 ### Data
-This folder contains the three sources of data used in this paper (USGS, CAMELS attributes, CAMELS time series). That information is completely available in this repository, so you do not need to request or download information from another source. 
+This folder contains the three sources of data used in this paper (USGS, CAMELS attributes, CAMELS time series). That information is completely available in this repository, so you do not need to request or download information from another source.
 
 By using the CAMELS attributes in your publication(s), you agree to cite:
 
@@ -29,7 +50,7 @@ Moreover, the folder has the Anaconda environment used to run the codes, and a t
 
 ### Results
 This folder has the summary results for each structure used. Hydro and LSTM refers to the experiment with 10 catchments. Hydro_CONUS refers to the experiment with 587 catchment using Hydro_LSTM. In the cases where the weight distribution is analyzed, The folder has the actual model saved in a pkl file .
-  
+
 ### Notebooks
 This folder has the files used to create each of the figures presented in the paper. All the figures are contained in the jupiter notebook Figures.ipynb.
 
