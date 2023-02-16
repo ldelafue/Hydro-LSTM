@@ -1,8 +1,6 @@
 .DS_Store
-Codes/.DS_Store
+**/.DS_Store
 Notebooks/elevation.tif
-Notebooks/.DS_Store
-Results/.DS_Store
 Codes/__pycache__/Hydro_LSTM.cpython-38.pyc
 Codes/__pycache__/importing.cpython-38.pyc
 Codes/__pycache__/LSTM.cpython-38.pyc
