@@ -59,15 +59,15 @@ def importing(catchment:str, country:str):
     if country == "US":
         HUC_number_path = path / 'camels_attributes_v2.0' / 'camels_name.txt' # os.getcwd() / 
         col_names = ['gauge_id','huc_02','gauge_name']
-        HUC_number = pd.read_csv(HUC_number_path, sep=';', header=1, names=col_names)
+        HUC_number = pd.read_csv(HUC_number_path, sep=';', header=0, names=col_names)
         HUC_number.index = HUC_number.gauge_id.values        
-
+   
         HUC = HUC_number.huc_02[int(catchment)]
         if HUC<10:
             HUC = '0' + str(HUC)
         else:
             HUC = str(HUC)
-      
+
         forcing_file = catchment + '_lump_maurer_forcing_leap.txt'
         forcing_path = path / 'basin_mean_forcing' / 'maurer_extended' / HUC # I have to generalize that
         forcing_path = os.getcwd() / forcing_path / forcing_file
@@ -89,7 +89,7 @@ def importing(catchment:str, country:str):
     #Reading the files
     if country == "US":
         col_names = ['gauge_id','gauge_lat','gauge_lon','elev_mean','slope_mean','area_gages2','area_geospa_fabric']
-        Topo_df = pd.read_csv(Topo_path, sep=';', header=1, names=col_names)
+        Topo_df = pd.read_csv(Topo_path, sep=';', header=0, names=col_names)
         Topo_df.index = Topo_df.gauge_id
         lat = Topo_df.gauge_lat[int(catchment)]*2*np.pi/360
 
