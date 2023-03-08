@@ -25,7 +25,7 @@ python main.py --code 9223000 --cells 1 --memory 256 --epochs 10 --model HYDRO
 
 To see the available options, you can use:
 ```
-python main.py --help
+python main.py -h, --help
 ```
 
 ### Data
