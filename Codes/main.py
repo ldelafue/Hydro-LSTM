@@ -29,16 +29,18 @@ from LSTM import *
 from utils import *
 
 #%% reading parameter
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description = "*** This code is calling all the other code files. These are the parameterization used. ***")
+
+
 #parser.add_argument('--country', choices=["US", "CL"]) # Only US catchments is implemented here
-parser.add_argument('--code', type=int) #ID 1000000 runs a unique model over the 10 catchment, do not implemented here
-parser.add_argument('--cells', type=int)
-parser.add_argument('--memory', type=int)
-parser.add_argument('--epochs', type=int, default=512)
+parser.add_argument('--code', type=int, help='Catchment ID from CAMELS dataset') #ID 1000000 runs a unique model over the 10 catchment, do not implemented here
+parser.add_argument('--cells', type=int, help='Number of state cells (in paralel) used in one hidden layer')
+parser.add_argument('--memory', type=int, help='Number of days used in the sequence length [1,256]')
+parser.add_argument('--epochs', type=int, default=512, help='Times the model is trained using the same dataset, Default=512')
 #parser.add_argument('--patience', type=int, default=512)
-parser.add_argument('--learning_rate', default=1e-4)
-parser.add_argument('--processor', default="cpu")
-parser.add_argument('--model', choices=["LSTM", "HYDRO"])
+parser.add_argument('--learning_rate', default=1e-4, help='Tuning parameter in an optimization algorithm that determines how fast we update the weights. Default=1e-4')
+parser.add_argument('--processor', default="cpu", help='Where the model will be ran. Default="cpu"')
+parser.add_argument('--model', choices=["LSTM", "HYDRO"], help='Model choises. "LSTM" or "HYDRO"')
 #parser.add_argument('--normalization', choices=["Global", "Local"]) # Only valid for a unique model, do not implemented here
 #parser.add_argument('--attribute', type=int, default=0)  # only usesful for with a unique model
 cfg = vars(parser.parse_args())
