@@ -1,4 +1,4 @@
-# Hydro-LSTM
+# HydroLSTM
 Towards Interpretable LSTM Modeling of Hydrological Systems
 
 This repository is splited in 4 different sections.
