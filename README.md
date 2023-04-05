@@ -1,5 +1,8 @@
 # HydroLSTM
-Towards Interpretable LSTM Modeling of Hydrological Systems
+
+By using the Code or the HydroLSTM representation in your publication(s), you agree to cite:
+
+> *De la Fuente,L., Ehsani, M., Gupta, H., and Condon, L.: Towards Interpretable LSTM Modeling of Hydrological Systems, Hydrology and Earth System Sciences, Preprint in preparation.*
 
 This repository is splited in 4 different sections.
   - Data
