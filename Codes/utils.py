@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Dec 17 12:14:04 2021
-modified Jan 14
-@author: Luis De la Fuente
+By using the Code or the HydroLSTM representation in your publication(s), you agree to cite:
+
+De la Fuente, L. A., Ehsani, M. R., Gupta, H. V., and Condon, L. E.: 
+Towards Interpretable LSTM-based Modelling of Hydrological Systems,
+EGUsphere [preprint], https://doi.org/10.5194/egusphere-2023-666, 2023.
+
 """
 
 #from importing_MAC import * 
