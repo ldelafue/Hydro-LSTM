@@ -1,7 +1,13 @@
 """
 This code create a common database depending of the country of the original dataset
-"""
 
+By using the Code or the HydroLSTM representation in your publication(s), you agree to cite:
+
+De la Fuente, L. A., Ehsani, M. R., Gupta, H. V., and Condon, L. E.: 
+Towards Interpretable LSTM-based Modelling of Hydrological Systems,
+EGUsphere [preprint], https://doi.org/10.5194/egusphere-2023-666, 2023.
+
+"""
 import numpy as np
 import pandas as pd
 from pathlib import Path, PosixPath
