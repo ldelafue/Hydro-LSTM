@@ -2,9 +2,9 @@
 
 By using the Code or the HydroLSTM representation in your publication(s), you agree to cite:
 
-> *De la Fuente, L. A., Ehsani, M. R., Gupta, H. V., and Condon, L. E.: Towards Interpretable LSTM-based Modelling of Hydrological Systems, EGUsphere [preprint], https://doi.org/10.5194/egusphere-2023-666, 2023.*
+> *De la Fuente, L. A., Ehsani, M. R., Gupta, H. V., and Condon, L. E.: Towards Interpretable LSTM-based Modelling of Hydrological Systems, EGUsphere, https://doi.org/10.5194/hess-28-945-2024, 2024.*
 
-This repository is splited in 4 different sections.
+This repository is split into 4 different sections.
   - Data
   - Codes
   - Results
